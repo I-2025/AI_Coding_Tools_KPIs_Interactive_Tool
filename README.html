@@ -1,0 +1,539 @@
+<!DOCTYPE html><html><head>
+      <title>README</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:////Users/ibrahimsabek/.cursor/extensions/shd101wyy.markdown-preview-enhanced-0.8.18/crossnote/dependencies/katex/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+
+      </style>
+      </head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="-ai-coding-tools-kpi-scorecard---team-collaboration-platform">🚀 AI Coding Tools KPI Scorecard - Team Collaboration Platform </h1>
+<p>A comprehensive interactive web application for evaluating and comparing AI coding tools (VS Code + Copilot, Cursor, Windsurf) across multiple Key Performance Indicators (KPIs). Built for team collaboration with individual scoring, averaging, and detailed analytics.</p>
+<h2 id="-features">🌟 Features </h2>
+<h3 id="-kpi-documentation">📋 KPI Documentation </h3>
+<ul>
+<li><strong>Complete KPI Reference</strong>: 55+ KPIs across 10 categories</li>
+<li><strong>Search &amp; Filter</strong>: Find specific KPIs by category or keyword</li>
+<li><strong>Detailed Descriptions</strong>: Comprehensive evaluation criteria for each KPI</li>
+<li><strong>Category Organization</strong>: Well-structured categorization of all metrics</li>
+</ul>
+<h3 id="-interactive-scorecard">📊 Interactive Scorecard </h3>
+<ul>
+<li><strong>Real-time Scoring</strong>: Score tools on a 1-5 scale for each KPI</li>
+<li><strong>Progress Tracking</strong>: Visual progress bar showing completion status</li>
+<li><strong>Comments System</strong>: Add detailed notes for each evaluation</li>
+<li><strong>Auto-save</strong>: Automatic saving of scores and comments</li>
+<li><strong>User-specific Data</strong>: Each team member maintains their own scores</li>
+</ul>
+<h3 id="-dashboard--statistics">📈 Dashboard &amp; Statistics </h3>
+<ul>
+<li><strong>Overall Performance</strong>: Comprehensive tool comparison charts</li>
+<li><strong>Category Winners</strong>: Visual breakdown of winners by category</li>
+<li><strong>Individual Category Charts</strong>: Detailed performance analysis per category</li>
+<li><strong>Real-time Updates</strong>: Dynamic charts that update as scores change</li>
+<li><strong>Team Statistics</strong>: Overall team performance metrics</li>
+</ul>
+<h3 id="-team-analytics">👥 Team Analytics </h3>
+<ul>
+<li><strong>Team Overview</strong>: See all team members and their activity</li>
+<li><strong>User Performance</strong>: Individual statistics for each team member</li>
+<li><strong>Consensus Analysis</strong>: Team tool preferences visualization</li>
+<li><strong>Disagreement Detection</strong>: Identify areas where team opinions differ</li>
+<li><strong>Collaboration Insights</strong>: Advanced analytics on team scoring patterns</li>
+</ul>
+<h3 id="-data-management">🔧 Data Management </h3>
+<ul>
+<li><strong>Export/Import</strong>: JSON-based data export and import</li>
+<li><strong>Local Storage</strong>: All data persists locally in browser</li>
+<li><strong>Team Collaboration</strong>: Multiple users can contribute scores</li>
+<li><strong>Data Backup</strong>: Export your data for backup or sharing</li>
+</ul>
+<h2 id="️-project-structure">🏗️ Project Structure </h2>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>├── index.html          # Main HTML file
+├── styles.css          # Complete styling and responsive design
+├── data.js            # KPI data structure and helper functions
+├── app.js             # Main application logic and functionality
+├── demo.js            # Sample data generator for demonstration
+├── server.py          # Python HTTP server with auto-start
+├── run_server.bat     # Windows server startup script
+├── run_server.sh      # Unix/Linux server startup script
+└── README.md          # This documentation
+</code></pre><h2 id="-quick-start">🚀 Quick Start </h2>
+<h3 id="1-setup">1. Setup </h3>
+<ol>
+<li>Clone or download the project files</li>
+<li>Ensure Python 3.6+ is installed</li>
+<li>Run the server:
+<ul>
+<li><strong>Windows</strong>: Double-click <code>run_server.bat</code></li>
+<li><strong>Unix/Linux/Mac</strong>: Run <code>./run_server.sh</code> or <code>python3 server.py</code></li>
+</ul>
+</li>
+<li>Browser opens automatically at <code>http://localhost:8000</code> (or next available port)</li>
+</ol>
+<h3 id="2-first-use">2. First Use </h3>
+<ol>
+<li>Enter your name in the login field</li>
+<li>Navigate through the tabs to explore features</li>
+<li>Start scoring tools in the Scorecard tab</li>
+<li>View results in the Dashboard tab</li>
+</ol>
+<h3 id="3-team-collaboration">3. Team Collaboration </h3>
+<ol>
+<li>Share the application URL with team members</li>
+<li>Each member logs in with their own name</li>
+<li>Members score independently</li>
+<li>Use Export/Import to share data between team members</li>
+</ol>
+<h2 id="️-server-documentation">🖥️ Server Documentation </h2>
+<h3 id="server-purpose">Server Purpose </h3>
+<p>The Python server (<code>server.py</code>) provides essential functionality:</p>
+<ul>
+<li><strong>Static File Serving</strong>: Serves HTML, CSS, and JavaScript files to browsers</li>
+<li><strong>CORS Headers</strong>: Adds proper Cross-Origin Resource Sharing headers for local development</li>
+<li><strong>MIME Types</strong>: Ensures proper content types for different file types (.html, .css, .js, .json)</li>
+<li><strong>Port Management</strong>: Automatically finds available ports (starts at 8000, then 8001, etc.)</li>
+<li><strong>Auto-browser Opening</strong>: Automatically opens the application in your default browser</li>
+<li><strong>File Validation</strong>: Checks for required files before starting</li>
+<li><strong>Error Handling</strong>: Proper 404 handling for missing files</li>
+</ul>
+<h3 id="server-features">Server Features </h3>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Custom handler with enhanced functionality</span>
+<span class="token keyword keyword-class">class</span> <span class="token class-name">KPIServerHandler</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span>server<span class="token punctuation">.</span>SimpleHTTPRequestHandler<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token operator">-</span> CORS headers <span class="token keyword keyword-for">for</span> local development
+    <span class="token operator">-</span> Custom MIME <span class="token builtin">type</span> handling
+    <span class="token operator">-</span> Cache control headers
+    <span class="token operator">-</span> Enhanced logging
+    <span class="token operator">-</span> Automatic index<span class="token punctuation">.</span>html serving
+</code></pre><h3 id="starting-the-server">Starting the Server </h3>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># Method 1: Direct Python execution</span>
+python3 server.py
+
+<span class="token comment"># Method 2: Using provided scripts</span>
+./run_server.sh        <span class="token comment"># Unix/Linux/Mac</span>
+run_server.bat         <span class="token comment"># Windows</span>
+
+<span class="token comment"># Method 3: Manual port specification</span>
+python3 server.py <span class="token parameter variable">--port</span> <span class="token number">8080</span>
+</code></pre><h2 id="-data-storage--management">💾 Data Storage &amp; Management </h2>
+<h3 id="storage-architecture">Storage Architecture </h3>
+<p>The application uses <strong>browser localStorage</strong> for data persistence:</p>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token comment">// Storage Keys</span>
+<span class="token constant">STORAGE_KEYS</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token constant">USER_SCORES</span><span class="token operator">:</span> <span class="token string">'kpi_user_scores'</span><span class="token punctuation">,</span>    <span class="token comment">// Individual user scores</span>
+    <span class="token constant">TEAM_DATA</span><span class="token operator">:</span> <span class="token string">'kpi_team_data'</span><span class="token punctuation">,</span>        <span class="token comment">// Team member information</span>
+    <span class="token constant">CURRENT_USER</span><span class="token operator">:</span> <span class="token string">'kpi_current_user'</span>   <span class="token comment">// Current logged-in user</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="data-structure">Data Structure </h3>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token comment">// User Scores Structure</span>
+userScores <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string-property property">"user_id"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">user</span><span class="token operator">:</span> <span class="token punctuation">{</span> id<span class="token punctuation">,</span> name<span class="token punctuation">,</span> loginTime <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">scores</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token string-property property">"kpi_id"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token literal-property property">kpiId</span><span class="token operator">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+                <span class="token literal-property property">categoryId</span><span class="token operator">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+                <span class="token literal-property property">tools</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                    <span class="token string-property property">"tool_id"</span><span class="token operator">:</span> score_value<span class="token punctuation">,</span>  <span class="token comment">// 1-5 scale</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                <span class="token literal-property property">comment</span><span class="token operator">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+                <span class="token literal-property property">lastUpdated</span><span class="token operator">:</span> <span class="token string">"ISO_date"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">lastUpdated</span><span class="token operator">:</span> <span class="token string">"ISO_date"</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Team Data Structure</span>
+teamData <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string-property property">"user_id"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">loginTime</span><span class="token operator">:</span> <span class="token string">"ISO_date"</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">lastActivity</span><span class="token operator">:</span> <span class="token string">"ISO_date"</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">totalScores</span><span class="token operator">:</span> number
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="data-persistence">Data Persistence </h3>
+<ul>
+<li><strong>Local Storage</strong>: All data stored in browser's localStorage</li>
+<li><strong>Cross-session</strong>: Data persists across browser sessions</li>
+<li><strong>Per-browser</strong>: Each browser maintains separate data</li>
+<li><strong>Manual Sync</strong>: Team collaboration requires manual export/import</li>
+</ul>
+<h2 id="-team-collaboration-models">👥 Team Collaboration Models </h2>
+<h3 id="model-1-individual-exportimport-current">Model 1: Individual Export/Import (Current) </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>User A → Score → Export JSON → Share
+User B → Score → Export JSON → Share  
+User C → Score → Export JSON → Share
+Admin → Import All → View Combined Results
+</code></pre><p><strong>Pros</strong>: Simple, no server requirements, full data control<br>
+<strong>Cons</strong>: Manual process, requires coordination</p>
+<h3 id="model-2-shared-server-deployment">Model 2: Shared Server Deployment </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Web Server → Single Application Instance
+├── User A → Direct Access
+├── User B → Direct Access
+└── User C → Direct Access
+</code></pre><p><strong>Pros</strong>: Real-time collaboration, single source of truth<br>
+<strong>Cons</strong>: Requires web server, shared browser data</p>
+<h3 id="model-3-enhanced-backend-future">Model 3: Enhanced Backend (Future) </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Database Server ← API Server ← Web Application
+├── User Management
+├── Real-time Sync
+├── Centralized Admin
+└── Advanced Analytics
+</code></pre><p><strong>Pros</strong>: Enterprise-grade, real-time sync, advanced features<br>
+<strong>Cons</strong>: Complex setup, requires backend development</p>
+<h2 id="-admin-features--access">🔧 Admin Features &amp; Access </h2>
+<h3 id="built-in-admin-capabilities">Built-in Admin Capabilities </h3>
+<h4 id="1-team-analytics-dashboard">1. Team Analytics Dashboard </h4>
+<p>Located in the <strong>👥 Team Analytics</strong> tab:</p>
+<ul>
+<li><strong>Team Member Overview</strong>: See all active users and their activity</li>
+<li><strong>Individual Performance Stats</strong>: Completion rates, average scores, favorite tools</li>
+<li><strong>Consensus Analysis</strong>: Team tool preferences with visual charts</li>
+<li><strong>Disagreement Detection</strong>: Identify KPIs where team opinions differ significantly</li>
+</ul>
+<h4 id="2-data-management-system">2. Data Management System </h4>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token comment">// Export all team data</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">exportScores</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-const">const</span> exportData <span class="token operator">=</span> <span class="token punctuation">{</span>
+        userScores<span class="token punctuation">,</span>      <span class="token comment">// All individual scores</span>
+        teamData<span class="token punctuation">,</span>        <span class="token comment">// Team member information</span>
+        <span class="token literal-property property">exportDate</span><span class="token operator">:</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">toISOString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">version</span><span class="token operator">:</span> <span class="token string">'1.0'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token comment">// Downloads comprehensive JSON file</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Import and merge team data</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">importScores</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Merges imported data with existing data</span>
+    <span class="token comment">// Preserves individual user scores</span>
+    <span class="token comment">// Updates team analytics</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="3-console-admin-functions">3. Console Admin Functions </h4>
+<p>Access via browser Developer Tools console:</p>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token comment">// Load demonstration data</span>
+<span class="token function">loadSampleData</span><span class="token punctuation">(</span><span class="token punctuation">)</span>    <span class="token comment">// Generates 4 sample users with realistic scores</span>
+
+<span class="token comment">// Reset all data</span>
+<span class="token function">resetData</span><span class="token punctuation">(</span><span class="token punctuation">)</span>         <span class="token comment">// Clears all localStorage data</span>
+
+<span class="token comment">// Direct data access</span>
+userScores          <span class="token comment">// View all user scores</span>
+teamData           <span class="token comment">// View team member data</span>
+</code></pre><h4 id="4-advanced-analytics">4. Advanced Analytics </h4>
+<ul>
+<li><strong>Disagreement Analysis</strong>: Identifies KPIs with high standard deviation</li>
+<li><strong>Consensus Metrics</strong>: Shows team agreement levels</li>
+<li><strong>Individual Contribution</strong>: Tracks each member's participation</li>
+<li><strong>Tool Preference Tracking</strong>: Analyzes individual vs. team preferences</li>
+</ul>
+<h3 id="admin-workflow-options">Admin Workflow Options </h3>
+<h4 id="option-a-centralized-collection-recommended">Option A: Centralized Collection (Recommended) </h4>
+<ol>
+<li><strong>Team Lead</strong> sets up application instance</li>
+<li><strong>Team Members</strong> complete individual scoring</li>
+<li><strong>Team Members</strong> export their scores (<code>Export Data</code> button)</li>
+<li><strong>Team Lead</strong> imports all member data (<code>Import Data</code> button)</li>
+<li><strong>Team Lead</strong> reviews combined results in Team Analytics</li>
+<li><strong>Team</strong> discusses disagreements and makes decisions</li>
+</ol>
+<h4 id="option-b-shared-deployment">Option B: Shared Deployment </h4>
+<ol>
+<li>Deploy application to shared web server</li>
+<li>All team members access same URL</li>
+<li>Individual browsers maintain separate data</li>
+<li>Use Team Analytics for combined view</li>
+<li>Export final results for documentation</li>
+</ol>
+<h4 id="option-c-demo-mode">Option C: Demo Mode </h4>
+<ol>
+<li>Access application with <code>?demo=true</code> parameter</li>
+<li>Automatically loads sample data for 4 users</li>
+<li>Explore all features with realistic data</li>
+<li>Reset when ready for actual use</li>
+</ol>
+<h2 id="-kpi-categories">📊 KPI Categories </h2>
+<h3 id="1-requirements-engineering--breakdown-6-kpis">1. Requirements Engineering &amp; Breakdown (6 KPIs) </h3>
+<ul>
+<li>Requirement interpretation accuracy</li>
+<li>Story/user flow decomposition</li>
+<li>Use case coverage</li>
+<li>Acceptance criteria definition</li>
+<li>Functional/non-functional separation</li>
+<li>Traceability matrix support</li>
+</ul>
+<h3 id="2-architecture--technical-design-6-kpis">2. Architecture &amp; Technical Design (6 KPIs) </h3>
+<ul>
+<li>Architecture proposal validity</li>
+<li>Design patterns usage</li>
+<li>SOLID/DRY/KISS compliance</li>
+<li>Modularity &amp; separation of concerns</li>
+<li>Tech stack recommendation fit</li>
+<li>Extensibility/refactorability</li>
+</ul>
+<h3 id="3-toolchain-integration--mcps-7-kpis">3. Toolchain Integration &amp; MCPS (7 KPIs) </h3>
+<ul>
+<li>Modeling tool compatibility</li>
+<li>MCPS integration</li>
+<li>Git workflow generation</li>
+<li>CI/CD pipeline setup</li>
+<li>Docker/K8s/IaC file generation</li>
+<li>IaC tool support</li>
+<li>Environment segregation</li>
+</ul>
+<h3 id="4-testing--validation-6-kpis">4. Testing &amp; Validation (6 KPIs) </h3>
+<ul>
+<li>Unit test coverage</li>
+<li>Test assertion relevance</li>
+<li>Edge case &amp; negative flow inclusion</li>
+<li>Test pyramid compliance</li>
+<li>TDD/BDD compatibility</li>
+<li>Coverage gap detection &amp; fix</li>
+</ul>
+<h3 id="5-documentation--commentary-5-kpis">5. Documentation &amp; Commentary (5 KPIs) </h3>
+<ul>
+<li>Code comments quality</li>
+<li>API documentation generation</li>
+<li>README &amp; setup guide creation</li>
+<li>Inline documentation standards</li>
+<li>Architectural documentation</li>
+</ul>
+<h3 id="6-deployment--infrastructure-readiness-6-kpis">6. Deployment &amp; Infrastructure Readiness (6 KPIs) </h3>
+<ul>
+<li>Deployment plan generation</li>
+<li>CI/CD pipeline validity</li>
+<li>Rollback/fallback strategy</li>
+<li>Platform fit score</li>
+<li>Observability integration</li>
+<li>Monitoring &amp; alerting setup</li>
+</ul>
+<h3 id="7-delivery-maintenance--ops-6-kpis">7. Delivery, Maintenance &amp; Ops (6 KPIs) </h3>
+<ul>
+<li>Operational readiness</li>
+<li>Maintenance documentation</li>
+<li>Troubleshooting guide generation</li>
+<li>Performance monitoring setup</li>
+<li>Backup &amp; recovery procedures</li>
+<li>Scaling strategy planning</li>
+</ul>
+<h3 id="8-agent-intelligence--prompt-understanding-6-kpis">8. Agent Intelligence &amp; Prompt Understanding (6 KPIs) </h3>
+<ul>
+<li>Context understanding</li>
+<li>Prompt interpretation accuracy</li>
+<li>Code generation quality</li>
+<li>Learning &amp; adaptation</li>
+<li>Multi-language support</li>
+<li>Domain-specific expertise</li>
+</ul>
+<h3 id="9-developer-experience--collaboration-5-kpis">9. Developer Experience &amp; Collaboration (5 KPIs) </h3>
+<ul>
+<li>User interface quality</li>
+<li>Collaboration features</li>
+<li>Workflow integration</li>
+<li>Learning curve</li>
+<li>Productivity impact</li>
+</ul>
+<h3 id="10-llm-backend--model-ecosystem-integration-8-kpis">10. LLM Backend &amp; Model Ecosystem Integration (8 KPIs) </h3>
+<ul>
+<li>Model performance</li>
+<li>Model selection &amp; switching</li>
+<li>Custom model support</li>
+<li>Response latency</li>
+<li>Offline capabilities</li>
+<li>API ecosystem integration</li>
+<li>Cost efficiency</li>
+<li>Scalability</li>
+</ul>
+<h2 id="-tools-being-evaluated">🎯 Tools Being Evaluated </h2>
+<h3 id="vs-code--copilot">VS Code + Copilot </h3>
+<ul>
+<li>Visual Studio Code with GitHub Copilot integration</li>
+<li>Color: Blue (#007ACC)</li>
+</ul>
+<h3 id="cursor">Cursor </h3>
+<ul>
+<li>AI-powered code editor</li>
+<li>Color: Black (#000000)</li>
+</ul>
+<h3 id="windsurf">Windsurf </h3>
+<ul>
+<li>AI-enhanced development environment</li>
+<li>Color: Red (#FF6B6B)</li>
+</ul>
+<h2 id="-user-interface">📱 User Interface </h2>
+<h3 id="navigation-tabs">Navigation Tabs </h3>
+<ul>
+<li><strong>📋 KPI Documentation</strong>: Browse and search all KPIs</li>
+<li><strong>📊 Scorecard</strong>: Interactive scoring interface</li>
+<li><strong>📈 Dashboard &amp; Stats</strong>: Visual analytics and charts</li>
+<li><strong>👥 Team Analytics</strong>: Team collaboration insights</li>
+</ul>
+<h3 id="key-features">Key Features </h3>
+<ul>
+<li><strong>Responsive Design</strong>: Works on desktop, tablet, and mobile</li>
+<li><strong>Modern UI</strong>: Clean, professional interface with smooth animations</li>
+<li><strong>Real-time Updates</strong>: Instant feedback and live chart updates</li>
+<li><strong>Progressive Enhancement</strong>: Works without JavaScript for basic functionality</li>
+</ul>
+<h2 id="-technical-details">🔧 Technical Details </h2>
+<h3 id="technologies-used">Technologies Used </h3>
+<ul>
+<li><strong>Frontend</strong>: HTML5, CSS3, JavaScript (ES6+)</li>
+<li><strong>Charts</strong>: Chart.js for interactive visualizations</li>
+<li><strong>Storage</strong>: LocalStorage for data persistence</li>
+<li><strong>Export</strong>: JSON format for data interchange</li>
+<li><strong>Server</strong>: Python 3.6+ HTTP server with CORS support</li>
+</ul>
+<h3 id="browser-support">Browser Support </h3>
+<ul>
+<li>Chrome 70+</li>
+<li>Firefox 60+</li>
+<li>Safari 12+</li>
+<li>Edge 80+</li>
+</ul>
+<h3 id="performance">Performance </h3>
+<ul>
+<li><strong>Fast Loading</strong>: Optimized for quick initial load</li>
+<li><strong>Smooth Interactions</strong>: 60fps animations and transitions</li>
+<li><strong>Efficient Storage</strong>: Minimal data footprint</li>
+<li><strong>Responsive Charts</strong>: Optimized chart rendering</li>
+</ul>
+<h2 id="-analytics--reporting">📊 Analytics &amp; Reporting </h2>
+<h3 id="dashboard-features">Dashboard Features </h3>
+<ul>
+<li><strong>Overall Winner</strong>: Automatically determined based on average scores</li>
+<li><strong>Category Analysis</strong>: Winner determination for each KPI category</li>
+<li><strong>Progress Tracking</strong>: Visual progress indicators</li>
+<li><strong>Team Statistics</strong>: Member count and activity metrics</li>
+</ul>
+<h3 id="team-analytics">Team Analytics </h3>
+<ul>
+<li><strong>User Performance</strong>: Individual scoring statistics</li>
+<li><strong>Consensus Analysis</strong>: Team agreement visualization</li>
+<li><strong>Disagreement Detection</strong>: Areas where team opinions vary significantly</li>
+<li><strong>Contribution Tracking</strong>: Individual contribution percentages</li>
+</ul>
+<h3 id="export-options">Export Options </h3>
+<ul>
+<li><strong>JSON Export</strong>: Complete data export for backup</li>
+<li><strong>Date Stamping</strong>: All exports include timestamps</li>
+<li><strong>Import Functionality</strong>: Restore data from previous exports</li>
+<li><strong>Team Sharing</strong>: Share team data across installations</li>
+</ul>
+<h2 id="-advanced-usage">🚀 Advanced Usage </h2>
+<h3 id="team-collaboration-workflow">Team Collaboration Workflow </h3>
+<ol>
+<li><strong>Setup</strong>: Deploy to shared web server or use local instances</li>
+<li><strong>Onboarding</strong>: Team members create accounts with their names</li>
+<li><strong>Scoring</strong>: Each member scores tools independently</li>
+<li><strong>Data Collection</strong>: Members export individual scores</li>
+<li><strong>Consolidation</strong>: Team lead imports all member data</li>
+<li><strong>Review</strong>: Team reviews combined results in Team Analytics</li>
+<li><strong>Discussion</strong>: Use disagreement analysis to guide team discussions</li>
+<li><strong>Decision</strong>: Make tool selection based on comprehensive data</li>
+</ol>
+<h3 id="data-management-best-practices">Data Management Best Practices </h3>
+<ul>
+<li><strong>Regular Backups</strong>: Export data regularly for safety</li>
+<li><strong>Version Control</strong>: Track changes over time with dated exports</li>
+<li><strong>Team Sync</strong>: Establish regular data sharing schedule</li>
+<li><strong>Documentation</strong>: Export final results for project documentation</li>
+</ul>
+<h3 id="customization-options">Customization Options </h3>
+<ul>
+<li><strong>KPI Modification</strong>: Edit <code>data.js</code> to add/modify KPIs</li>
+<li><strong>Styling</strong>: Customize <code>styles.css</code> for brand consistency</li>
+<li><strong>Tool Addition</strong>: Add new tools to comparison matrix</li>
+<li><strong>Category Creation</strong>: Define new KPI categories</li>
+<li><strong>Server Configuration</strong>: Modify <code>server.py</code> for custom deployment</li>
+</ul>
+<h2 id="-privacy--security">🔒 Privacy &amp; Security </h2>
+<h3 id="data-storage">Data Storage </h3>
+<ul>
+<li><strong>Local Storage</strong>: All data stored locally in browser</li>
+<li><strong>No Server Persistence</strong>: No data transmitted to external servers</li>
+<li><strong>Team Control</strong>: Teams have full control over their data</li>
+<li><strong>Export Control</strong>: Data export/import under user control</li>
+</ul>
+<h3 id="best-practices">Best Practices </h3>
+<ul>
+<li><strong>Regular Backups</strong>: Export data regularly to prevent loss</li>
+<li><strong>Secure Sharing</strong>: Share exported files through secure channels</li>
+<li><strong>Access Control</strong>: Implement access controls for shared deployments</li>
+<li><strong>Data Cleanup</strong>: Clear old data periodically using <code>resetData()</code></li>
+</ul>
+<h2 id="-contributing">🤝 Contributing </h2>
+<h3 id="how-to-contribute">How to Contribute </h3>
+<ol>
+<li>Fork the repository</li>
+<li>Create a feature branch</li>
+<li>Make your changes</li>
+<li>Test thoroughly across different browsers</li>
+<li>Submit a pull request</li>
+</ol>
+<h3 id="areas-for-contribution">Areas for Contribution </h3>
+<ul>
+<li><strong>New KPIs</strong>: Add relevant evaluation criteria</li>
+<li><strong>UI Improvements</strong>: Enhance user experience</li>
+<li><strong>Chart Types</strong>: Add new visualization options</li>
+<li><strong>Export Formats</strong>: Support additional data formats (CSV, Excel)</li>
+<li><strong>Mobile Optimization</strong>: Improve mobile experience</li>
+<li><strong>Server Enhancement</strong>: Add database support or real-time sync</li>
+<li><strong>Admin Features</strong>: Enhanced admin dashboard capabilities</li>
+</ul>
+<h2 id="-license">📄 License </h2>
+<p>This project is released under the MIT License. See LICENSE file for details.</p>
+<h2 id="-support">🆘 Support </h2>
+<h3 id="common-issues">Common Issues </h3>
+<ul>
+<li><strong>Port Already in Use</strong>: Server automatically finds next available port</li>
+<li><strong>Browser Compatibility</strong>: Use modern browsers for best experience</li>
+<li><strong>Data Loss</strong>: Export data regularly to prevent loss</li>
+<li><strong>Performance</strong>: Close other tabs for better chart performance</li>
+<li><strong>Team Collaboration</strong>: Use export/import for data sharing</li>
+</ul>
+<h3 id="troubleshooting">Troubleshooting </h3>
+<ol>
+<li><strong>Server Won't Start</strong>: Check Python installation and port availability</li>
+<li><strong>Data Not Saving</strong>: Ensure browser allows localStorage</li>
+<li><strong>Charts Not Loading</strong>: Check internet connection for Chart.js CDN</li>
+<li><strong>Import/Export Issues</strong>: Verify JSON file format and structure</li>
+</ol>
+<h3 id="getting-help">Getting Help </h3>
+<ul>
+<li>Check browser console for error messages</li>
+<li>Ensure JavaScript is enabled in browser</li>
+<li>Clear browser cache if experiencing issues</li>
+<li>Export data before troubleshooting major issues</li>
+<li>Use demo mode (<code>?demo=true</code>) to test functionality</li>
+</ul>
+<h2 id="-acknowledgments">🎉 Acknowledgments </h2>
+<p>Built with modern web technologies and best practices for team collaboration in AI tool evaluation. Special thanks to the open-source community for Chart.js, and the comprehensive KPI framework for AI coding tool assessment.</p>
+<hr>
+<p><strong>Happy Evaluating! 🚀</strong></p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

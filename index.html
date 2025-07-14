@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Coding Tools KPI Scorecard - Team Collaboration</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🚀 AI Coding Tools KPI Scorecard</h1>
+            <p class="subtitle">Team Collaborative Evaluation Platform</p>
+            
+            <!-- User Management -->
+            <div class="user-section">
+                <div class="user-input">
+                    <input type="text" id="username" placeholder="Enter your name" maxlength="20">
+                    <button id="loginBtn" onclick="loginUser()">Login</button>
+                </div>
+                <div class="current-user" id="currentUser" style="display: none;">
+                    <span>👤 Welcome: <strong id="displayName"></strong></span>
+                    <button onclick="logoutUser()">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="tabs">
+            <button class="tab-button active" onclick="showTab('documentation')">
+                📋 KPI Documentation
+            </button>
+            <button class="tab-button" onclick="showTab('scorecard')">
+                📊 Scorecard
+            </button>
+            <button class="tab-button" onclick="showTab('dashboard')">
+                📈 Dashboard & Stats
+            </button>
+            <button class="tab-button" onclick="showTab('team')">
+                👥 Team Analytics
+            </button>
+        </nav>
+
+        <!-- Tab Content -->
+        <main class="content">
+            <!-- Documentation Tab -->
+            <div id="documentation" class="tab-content active">
+                <div class="section">
+                    <h2>📋 KPI Documentation</h2>
+                    <p>Complete reference for all Key Performance Indicators across AI coding tools evaluation.</p>
+                    
+                    <div class="filters">
+                        <select id="categoryFilter" onchange="filterDocumentation()">
+                            <option value="">All Categories</option>
+                        </select>
+                        <input type="text" id="searchFilter" placeholder="Search KPIs..." onkeyup="filterDocumentation()">
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="documentationTable">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>KPI Name</th>
+                                    <th>Description</th>
+                                    <th>Metric Type</th>
+                                    <th>Evaluation Criteria</th>
+                                </tr>
+                            </thead>
+                            <tbody id="docTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scorecard Tab -->
+            <div id="scorecard" class="tab-content">
+                <div class="section">
+                    <h2>📊 Interactive Scorecard</h2>
+                    <p>Rate each KPI for different AI coding tools (Scale: 1-5, where 5 is excellent)</p>
+                    
+                    <div class="scoring-header">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                            <span class="progress-text" id="progressText">0% Complete</span>
+                        </div>
+                        <div class="scoring-actions">
+                            <button onclick="saveScores()">💾 Save Scores</button>
+                            <button onclick="exportScores()">📥 Export Data</button>
+                            <button onclick="importScores()">📤 Import Data</button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="scorecardTable">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>KPI</th>
+                                    <th>VS Code + Copilot</th>
+                                    <th>Cursor</th>
+                                    <th>Windsurf</th>
+                                    <th>Comments</th>
+                                    <th>Your Score Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scorecardTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content">
+                <div class="section">
+                    <h2>📈 Dashboard & Statistics</h2>
+                    
+                    <!-- Overall Statistics -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>🏆 Overall Winner</h3>
+                            <div class="stat-value" id="overallWinner">Calculating...</div>
+                            <div class="stat-detail" id="overallWinnerScore">Score: 0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>📊 Total KPIs</h3>
+                            <div class="stat-value" id="totalKPIs">0</div>
+                            <div class="stat-detail" id="completedKPIs">0 completed</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>👥 Team Members</h3>
+                            <div class="stat-value" id="teamMemberCount">0</div>
+                            <div class="stat-detail" id="activeMembers">0 active</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>⚡ Completion Rate</h3>
+                            <div class="stat-value" id="completionRate">0%</div>
+                            <div class="stat-detail" id="avgScore">Avg: 0.0</div>
+                        </div>
+                    </div>
+
+                    <!-- Overall Comparison Chart -->
+                    <div class="chart-container">
+                        <h3>🔍 Overall Tool Comparison</h3>
+                        <canvas id="overallChart"></canvas>
+                    </div>
+
+                    <!-- Category Winners -->
+                    <div class="category-winners">
+                        <h3>🏅 Category Winners</h3>
+                        <div class="winners-grid" id="categoryWinners">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+
+                    <!-- Category Charts -->
+                    <div class="category-charts">
+                        <h3>📊 Category Performance</h3>
+                        <div class="charts-grid" id="categoryCharts">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Analytics Tab -->
+            <div id="team" class="tab-content">
+                <div class="section">
+                    <h2>👥 Team Analytics</h2>
+                    
+                    <!-- Team Overview -->
+                    <div class="team-overview">
+                        <h3>Team Members</h3>
+                        <div class="team-list" id="teamList">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+
+                    <!-- User Statistics -->
+                    <div class="user-stats">
+                        <h3>📊 User Performance</h3>
+                        <div class="table-container">
+                            <table id="userStatsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Member</th>
+                                        <th>KPIs Completed</th>
+                                        <th>Avg Score</th>
+                                        <th>Favorite Tool</th>
+                                        <th>Last Activity</th>
+                                        <th>Contribution</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userStatsTableBody">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Consensus Analysis -->
+                    <div class="consensus-analysis">
+                        <h3>🤝 Team Consensus</h3>
+                        <div class="chart-container">
+                            <canvas id="consensusChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Disagreement Analysis -->
+                    <div class="disagreement-analysis">
+                        <h3>⚠️ Areas of Disagreement</h3>
+                        <div class="disagreement-list" id="disagreementList">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Hidden file input for import -->
+    <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleFileImport(event)">
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    <script src="demo.js"></script>
+</body>
+</html> 
