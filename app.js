@@ -11,6 +11,227 @@ const STORAGE_KEYS = {
     CURRENT_USER: 'kpi_current_user'
 };
 
+// Tool Management Functions (moved up to be available early)
+function loadCustomTools() {
+    const customTools = localStorage.getItem('kpi_custom_tools');
+    if (customTools) {
+        try {
+            const parsed = JSON.parse(customTools);
+            // Merge custom tools with default tools, ensuring defaults are never removed
+            const defaultTools = kpiData.tools.filter(tool => tool.isDefault);
+            const customToolsArray = parsed.filter(tool => !tool.isDefault);
+            kpiData.tools = [...defaultTools, ...customToolsArray];
+        } catch (e) {
+            console.error('Error loading custom tools:', e);
+        }
+    }
+}
+
+function saveCustomTools() {
+    const customTools = kpiData.tools.filter(tool => !tool.isDefault);
+    localStorage.setItem('kpi_custom_tools', JSON.stringify(customTools));
+}
+
+function updateToolsList() {
+    const toolsList = document.getElementById('toolsList');
+    if (!toolsList) return; // Guard against missing element
+    
+    toolsList.innerHTML = '';
+    
+    kpiData.tools.forEach(tool => {
+        const toolItem = document.createElement('div');
+        toolItem.className = `tool-item ${tool.isDefault ? 'default' : 'custom'}`;
+        toolItem.style.borderLeftColor = tool.color;
+        
+        toolItem.innerHTML = `
+            <div class="tool-color" style="background-color: ${tool.color}"></div>
+            <div>
+                <h4>${tool.name}</h4>
+                <p>${tool.description}</p>
+                <span class="tool-badge">${tool.isDefault ? 'Default' : 'Custom'}</span>
+            </div>
+        `;
+        
+        toolsList.appendChild(toolItem);
+    });
+}
+
+function showAddToolModal() {
+    const modal = document.getElementById('addToolModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        const toolName = document.getElementById('toolName');
+        if (toolName) toolName.focus();
+    }
+}
+
+function hideAddToolModal() {
+    const modal = document.getElementById('addToolModal');
+    if (modal) {
+        modal.style.display = 'none';
+        const form = document.getElementById('addToolForm');
+        if (form) form.reset();
+    }
+}
+
+function showManageToolsModal() {
+    const modal = document.getElementById('manageToolsModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        updateToolsManagementList();
+    }
+}
+
+function hideManageToolsModal() {
+    const modal = document.getElementById('manageToolsModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+function updateToolsManagementList() {
+    const toolsList = document.getElementById('toolsManagementList');
+    if (!toolsList) return;
+    
+    toolsList.innerHTML = '';
+    
+    kpiData.tools.forEach(tool => {
+        const toolItem = document.createElement('div');
+        toolItem.className = 'tool-management-item';
+        
+        toolItem.innerHTML = `
+            <div style="display: flex; align-items: center;">
+                <div class="tool-color" style="background-color: ${tool.color}"></div>
+                <div class="tool-info">
+                    <h4>${tool.name} ${tool.isDefault ? '(Default)' : ''}</h4>
+                    <p>${tool.description}</p>
+                </div>
+            </div>
+            <div class="tool-actions-mini">
+                <button class="remove-tool-btn" onclick="removeToolConfirm('${tool.id}')" 
+                        ${tool.isDefault ? 'disabled' : ''}>
+                    ${tool.isDefault ? 'Built-in' : 'Remove'}
+                </button>
+            </div>
+        `;
+        
+        toolsList.appendChild(toolItem);
+    });
+}
+
+function removeToolConfirm(toolId) {
+    const tool = getToolById(toolId);
+    if (!tool) return;
+    
+    if (tool.isDefault) {
+        showAlert('Cannot remove default tools', 'error');
+        return;
+    }
+    
+    if (confirm(`Are you sure you want to remove "${tool.name}"? This will delete all scores for this tool.`)) {
+        try {
+            removeTool(toolId);
+            showAlert('Tool removed successfully!', 'success');
+            updateToolsManagementList();
+            updateToolsList();
+            populateScorecardTab();
+            updateDashboard();
+            updateTeamAnalytics();
+        } catch (error) {
+            showAlert('Error removing tool: ' + error.message, 'error');
+        }
+    }
+}
+
+function addToolLocal(toolData) {
+    const existingTool = kpiData.tools.find(t => t.name.toLowerCase() === toolData.name.toLowerCase());
+    if (existingTool) {
+        throw new Error('A tool with this name already exists.');
+    }
+
+    const newTool = {
+        id: generateToolId(toolData.name),
+        name: toolData.name,
+        description: toolData.description,
+        color: toolData.color,
+        isDefault: false
+    };
+    
+    kpiData.tools.push(newTool);
+    saveCustomTools();
+    return newTool;
+}
+
+function generateToolId(name) {
+    return name.toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Date.now();
+}
+
+function removeTool(toolId) {
+    const tool = kpiData.tools.find(t => t.id === toolId);
+    if (!tool) {
+        throw new Error('Tool not found');
+    }
+    
+    if (tool.isDefault) {
+        throw new Error('Cannot remove default tools');
+    }
+    
+    // Remove from tools array
+    kpiData.tools = kpiData.tools.filter(t => t.id !== toolId);
+    
+    // Remove from all user scores
+    Object.keys(userScores).forEach(userId => {
+        const userScore = userScores[userId];
+        Object.keys(userScore.scores).forEach(kpiId => {
+            const scoreData = userScore.scores[kpiId];
+            if (scoreData.tools[toolId]) {
+                delete scoreData.tools[toolId];
+            }
+        });
+    });
+    
+    saveCustomTools();
+    saveToStorage();
+    return true;
+}
+
+function showAlert(message, type = 'info') {
+    const existingAlert = document.querySelector('.alert');
+    if (existingAlert) {
+        existingAlert.remove();
+    }
+    
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type}`;
+    alert.textContent = message;
+    
+    // Insert after the tool management section
+    const toolManagement = document.querySelector('.tool-management');
+    if (toolManagement && toolManagement.parentNode) {
+        toolManagement.parentNode.insertBefore(alert, toolManagement.nextSibling);
+    } else {
+        // Fallback: insert at the beginning of the content
+        const content = document.querySelector('.content');
+        if (content) {
+            content.insertBefore(alert, content.firstChild);
+        }
+    }
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        if (alert.parentNode) {
+            alert.remove();
+        }
+    }, 5000);
+}
+
+// Make functions globally available
+window.showAddToolModal = showAddToolModal;
+window.hideAddToolModal = hideAddToolModal;
+window.showManageToolsModal = showManageToolsModal;
+window.hideManageToolsModal = hideManageToolsModal;
+window.removeToolConfirm = removeToolConfirm;
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
@@ -18,8 +239,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function initializeApp() {
     loadFromStorage();
+    loadCustomTools(); // Load custom tools from localStorage
     setupEventListeners();
     populateDocumentationTab();
+    updateToolsList();
     populateScorecardTab();
     updateDashboard();
     updateTeamAnalytics();
@@ -29,6 +252,8 @@ function initializeApp() {
     if (savedUser) {
         currentUser = JSON.parse(savedUser);
         showUserInterface();
+        // Load user scores after setting current user
+        loadUserScores();
     }
 }
 
@@ -51,6 +276,40 @@ function setupEventListeners() {
     // Filter functionality
     document.getElementById('categoryFilter').addEventListener('change', filterDocumentation);
     document.getElementById('searchFilter').addEventListener('input', filterDocumentation);
+    
+    // Add tool form submission
+    const addToolForm = document.getElementById('addToolForm');
+    if (addToolForm) {
+        addToolForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const toolData = {
+                name: formData.get('toolName').trim(),
+                description: formData.get('toolDescription').trim(),
+                color: formData.get('toolColor')
+            };
+            
+            try {
+                const newTool = addToolLocal(toolData);
+                showAlert(`Tool "${newTool.name}" added successfully!`, 'success');
+                hideAddToolModal();
+                updateToolsList();
+                populateScorecardTab();
+                updateDashboard();
+                updateTeamAnalytics();
+            } catch (error) {
+                showAlert('Error adding tool: ' + error.message, 'error');
+            }
+        });
+    }
+    
+    // Close modals when clicking outside
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+        }
+    });
 }
 
 // User Management Functions
@@ -90,6 +349,8 @@ function loginUser() {
 
     saveToStorage();
     showUserInterface();
+    // Load user scores after login
+    loadUserScores();
     updateDashboard();
     updateTeamAnalytics();
 }
@@ -110,6 +371,9 @@ function showUserInterface() {
     document.getElementById('currentUser').style.display = 'flex';
     document.getElementById('loginBtn').style.display = 'none';
     localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(currentUser));
+    
+    // Load user scores when user interface is shown
+    loadUserScores();
 }
 
 function generateUserId(username) {
@@ -137,6 +401,10 @@ function showTab(tabId) {
             break;
         case 'scorecard':
             updateScorecardProgress();
+            // Load user scores when scorecard tab is shown
+            if (currentUser) {
+                loadUserScores();
+            }
             break;
         case 'dashboard':
             updateDashboard();
@@ -197,26 +465,64 @@ function filterDocumentation() {
 // Scorecard Tab Functions
 function populateScorecardTab() {
     const tableBody = document.getElementById('scorecardTableBody');
+    const tableHeader = document.getElementById('scorecardTableHeader');
+    
+    // Clear existing content
     tableBody.innerHTML = '';
-
+    
+    // Generate dynamic header
+    updateScorecardTableHeader();
+    
+    // Generate table rows
     kpiData.categories.forEach(category => {
         category.kpis.forEach(kpi => {
             const row = document.createElement('tr');
-            row.innerHTML = `
+            
+            // Category and KPI columns
+            let html = `
                 <td><span class="category-badge">${category.name}</span></td>
                 <td><strong>${kpi.name}</strong></td>
-                <td><input type="number" class="score-input" min="1" max="5" data-tool="vscode_copilot" data-kpi="${kpi.id}" data-category="${category.id}" onchange="updateScore(this)" /></td>
-                <td><input type="number" class="score-input" min="1" max="5" data-tool="cursor" data-kpi="${kpi.id}" data-category="${category.id}" onchange="updateScore(this)" /></td>
-                <td><input type="number" class="score-input" min="1" max="5" data-tool="windsurf" data-kpi="${kpi.id}" data-category="${category.id}" onchange="updateScore(this)" /></td>
+            `;
+            
+            // Dynamic tool columns
+            kpiData.tools.forEach(tool => {
+                html += `<td class="tool-score"><input type="number" class="score-input" min="1" max="5" data-tool="${tool.id}" data-kpi="${kpi.id}" data-category="${category.id}" onchange="updateScore(this)" /></td>`;
+            });
+            
+            // Comments and date columns
+            html += `
                 <td><textarea class="comments-input" data-kpi="${kpi.id}" data-category="${category.id}" placeholder="Add comments..." onchange="updateComment(this)"></textarea></td>
                 <td><span class="score-date" id="date-${kpi.id}">-</span></td>
             `;
+            
+            row.innerHTML = html;
             tableBody.appendChild(row);
         });
     });
 
     // Load existing scores
     loadUserScores();
+}
+
+function updateScorecardTableHeader() {
+    const tableHeader = document.getElementById('scorecardTableHeader');
+    
+    let html = `
+        <th>Category</th>
+        <th>KPI</th>
+    `;
+    
+    // Dynamic tool columns
+    kpiData.tools.forEach(tool => {
+        html += `<th class="tool-header" style="background-color: ${tool.color}30; color: #2c3e50;">${tool.name}</th>`;
+    });
+    
+    html += `
+        <th>Comments</th>
+        <th>Your Score Date</th>
+    `;
+    
+    tableHeader.innerHTML = html;
 }
 
 function updateScore(input) {
@@ -403,37 +709,6 @@ function updateOverallStats() {
     document.getElementById('completedKPIs').textContent = `${Object.keys(userScores).length} members active`;
 }
 
-function calculateAverageScores() {
-    const toolScores = {};
-    
-    kpiData.tools.forEach(tool => {
-        toolScores[tool.id] = { total: 0, count: 0 };
-    });
-
-    // Sum all scores
-    Object.keys(userScores).forEach(userId => {
-        const scores = userScores[userId].scores;
-        Object.keys(scores).forEach(kpiId => {
-            const scoreData = scores[kpiId];
-            Object.keys(scoreData.tools).forEach(toolId => {
-                if (toolScores[toolId]) {
-                    toolScores[toolId].total += scoreData.tools[toolId];
-                    toolScores[toolId].count++;
-                }
-            });
-        });
-    });
-
-    // Calculate averages
-    const averages = {};
-    Object.keys(toolScores).forEach(toolId => {
-        averages[toolId] = toolScores[toolId].count > 0 ? 
-            toolScores[toolId].total / toolScores[toolId].count : 0;
-    });
-
-    return averages;
-}
-
 function determineOverallWinner(averageScores) {
     let winner = null;
     let highestScore = 0;
@@ -449,6 +724,7 @@ function determineOverallWinner(averageScores) {
     return winner;
 }
 
+// Update chart functions to handle dynamic tools
 function updateOverallChart() {
     const ctx = document.getElementById('overallChart').getContext('2d');
     const averageScores = calculateAverageScores();
@@ -490,6 +766,58 @@ function updateOverallChart() {
                 }
             }
         }
+    });
+}
+
+function updateCategoryCharts() {
+    const chartsContainer = document.getElementById('categoryCharts');
+    chartsContainer.innerHTML = '';
+
+    kpiData.categories.forEach(category => {
+        const categoryScores = calculateCategoryScores(category.id);
+        
+        const chartDiv = document.createElement('div');
+        chartDiv.className = 'category-chart';
+        chartDiv.innerHTML = `
+            <h4>${category.name}</h4>
+            <canvas id="chart-${category.id}"></canvas>
+        `;
+        chartsContainer.appendChild(chartDiv);
+
+        // Create chart
+        const ctx = document.getElementById(`chart-${category.id}`).getContext('2d');
+        const labels = kpiData.tools.map(tool => tool.name);
+        const data = kpiData.tools.map(tool => categoryScores[tool.id] || 0);
+        const colors = kpiData.tools.map(tool => tool.color);
+
+        charts[`category-${category.id}`] = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Average Score',
+                    data: data,
+                    backgroundColor: colors,
+                    borderColor: colors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5
+                    }
+                }
+            }
+        });
     });
 }
 
@@ -560,57 +888,66 @@ function determineCategoryWinner(categoryScores) {
     return winner;
 }
 
-function updateCategoryCharts() {
-    const chartsContainer = document.getElementById('categoryCharts');
-    chartsContainer.innerHTML = '';
+function updateConsensusChart() {
+    const ctx = document.getElementById('consensusChart').getContext('2d');
+    const consensusData = calculateConsensusData();
 
-    kpiData.categories.forEach(category => {
-        const categoryScores = calculateCategoryScores(category.id);
-        
-        const chartDiv = document.createElement('div');
-        chartDiv.className = 'category-chart';
-        chartDiv.innerHTML = `
-            <h4>${category.name}</h4>
-            <canvas id="chart-${category.id}"></canvas>
-        `;
-        chartsContainer.appendChild(chartDiv);
+    // Destroy existing chart
+    if (charts.consensusChart) {
+        charts.consensusChart.destroy();
+    }
 
-        // Create chart
-        const ctx = document.getElementById(`chart-${category.id}`).getContext('2d');
-        const labels = kpiData.tools.map(tool => tool.name);
-        const data = kpiData.tools.map(tool => categoryScores[tool.id] || 0);
-        const colors = kpiData.tools.map(tool => tool.color);
+    const labels = kpiData.tools.map(tool => tool.name);
+    const data = kpiData.tools.map(tool => consensusData[tool.id] || 0);
+    const colors = kpiData.tools.map(tool => tool.color);
 
-        charts[`category-${category.id}`] = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Average Score',
-                    data: data,
-                    backgroundColor: colors,
-                    borderColor: colors,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 5
-                    }
+    charts.consensusChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Team Consensus',
+                data: data,
+                backgroundColor: colors,
+                borderColor: colors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Team Tool Preferences'
                 }
             }
-        });
+        }
     });
 }
+
+function calculateConsensusData() {
+    const toolPreferences = {};
+    
+    kpiData.tools.forEach(tool => {
+        toolPreferences[tool.id] = 0;
+    });
+
+    // Count user preferences
+    Object.keys(userScores).forEach(userId => {
+        const userStats = calculateUserStats(userScores[userId]);
+        // Find the tool ID for the favorite tool
+        const favoriteTool = kpiData.tools.find(tool => tool.name === userStats.favoriteTool);
+        if (favoriteTool) {
+            toolPreferences[favoriteTool.id]++;
+        }
+    });
+
+    return toolPreferences;
+}
+
+// Initialize charts object
+charts = {};
 
 // Team Analytics Functions
 function updateTeamAnalytics() {
@@ -695,64 +1032,6 @@ function calculateUserStats(userScore) {
         favoriteTool,
         contributionPercentage
     };
-}
-
-function updateConsensusChart() {
-    const ctx = document.getElementById('consensusChart').getContext('2d');
-    const consensusData = calculateConsensusData();
-
-    // Destroy existing chart
-    if (charts.consensusChart) {
-        charts.consensusChart.destroy();
-    }
-
-    const labels = kpiData.tools.map(tool => tool.name);
-    const data = kpiData.tools.map(tool => consensusData[tool.id] || 0);
-    const colors = kpiData.tools.map(tool => tool.color);
-
-    charts.consensusChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Team Consensus',
-                data: data,
-                backgroundColor: colors,
-                borderColor: colors,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Team Tool Preferences'
-                }
-            }
-        }
-    });
-}
-
-function calculateConsensusData() {
-    const toolPreferences = {};
-    
-    kpiData.tools.forEach(tool => {
-        toolPreferences[tool.id] = 0;
-    });
-
-    // Count user preferences
-    Object.keys(userScores).forEach(userId => {
-        const userStats = calculateUserStats(userScores[userId]);
-        // Find the tool ID for the favorite tool
-        const favoriteTool = kpiData.tools.find(tool => tool.name === userStats.favoriteTool);
-        if (favoriteTool) {
-            toolPreferences[favoriteTool.id]++;
-        }
-    });
-
-    return toolPreferences;
 }
 
 function updateDisagreementAnalysis() {
@@ -884,6 +1163,7 @@ function exportScores() {
     const exportData = {
         userScores,
         teamData,
+        customTools: kpiData.tools.filter(tool => !tool.isDefault),
         exportDate: new Date().toISOString(),
         version: '1.0'
     };
@@ -916,9 +1196,20 @@ function handleFileImport(event) {
             if (importData.teamData) {
                 teamData = { ...teamData, ...importData.teamData };
             }
+            if (importData.customTools) {
+                // Merge custom tools
+                const existingCustomTools = kpiData.tools.filter(tool => !tool.isDefault);
+                const newCustomTools = importData.customTools.filter(tool => 
+                    !existingCustomTools.some(existing => existing.id === tool.id)
+                );
+                kpiData.tools = [...kpiData.tools.filter(tool => tool.isDefault), ...existingCustomTools, ...newCustomTools];
+                saveCustomTools();
+            }
 
             saveToStorage();
             loadUserScores();
+            updateToolsList();
+            populateScorecardTab();
             updateDashboard();
             updateTeamAnalytics();
             alert('Data imported successfully!');
@@ -955,8 +1246,59 @@ function formatDateTime(dateString) {
     return new Date(dateString).toLocaleString();
 }
 
-// Initialize charts object
-charts = {};
+function getTotalKPICount() {
+    return kpiData.categories.reduce((total, category) => total + category.kpis.length, 0);
+}
+
+function getToolById(toolId) {
+    return kpiData.tools.find(tool => tool.id === toolId);
+}
+
+function getAllKPIs() {
+    const allKPIs = [];
+    kpiData.categories.forEach(category => {
+        category.kpis.forEach(kpi => {
+            allKPIs.push({
+                ...kpi,
+                categoryId: category.id,
+                categoryName: category.name
+            });
+        });
+    });
+    return allKPIs;
+}
+
+function calculateAverageScores() {
+    const toolScores = {};
+    
+    // Initialize tool scores
+    kpiData.tools.forEach(tool => {
+        toolScores[tool.id] = { total: 0, count: 0 };
+    });
+
+    // Sum all scores for each tool
+    Object.keys(userScores).forEach(userId => {
+        const scores = userScores[userId].scores;
+        Object.keys(scores).forEach(kpiId => {
+            const scoreData = scores[kpiId];
+            Object.keys(scoreData.tools).forEach(toolId => {
+                if (toolScores[toolId]) {
+                    toolScores[toolId].total += scoreData.tools[toolId];
+                    toolScores[toolId].count++;
+                }
+            });
+        });
+    });
+
+    // Calculate averages
+    const averages = {};
+    Object.keys(toolScores).forEach(toolId => {
+        averages[toolId] = toolScores[toolId].count > 0 ? 
+            toolScores[toolId].total / toolScores[toolId].count : 0;
+    });
+
+    return averages;
+}
 
 // Add some sample data for demonstration
 function addSampleData() {

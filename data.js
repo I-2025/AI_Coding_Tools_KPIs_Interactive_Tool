@@ -499,27 +499,34 @@ const kpiData = {
             ]
         }
     ],
+    // Default tools - can be extended dynamically
     tools: [
         {
             id: 'vscode_copilot',
             name: 'VS Code + Copilot',
             description: 'Visual Studio Code with GitHub Copilot integration',
-            color: '#007ACC'
+            color: '#007ACC',
+            isDefault: true
         },
         {
             id: 'cursor',
             name: 'Cursor',
             description: 'AI-powered code editor',
-            color: '#000000'
+            color: '#000000',
+            isDefault: true
         },
         {
             id: 'windsurf',
             name: 'Windsurf',
             description: 'AI-enhanced development environment',
-            color: '#FF6B6B'
+            color: '#FF6B6B',
+            isDefault: true
         }
     ]
 };
+
+// Storage key for custom tools
+const CUSTOM_TOOLS_KEY = 'kpi_custom_tools';
 
 // Default empty scores structure
 const defaultScores = {
@@ -527,6 +534,112 @@ const defaultScores = {
     teamStats: {},
     lastUpdated: null
 };
+
+// Tool Management Functions
+function loadCustomTools() {
+    const customTools = localStorage.getItem(CUSTOM_TOOLS_KEY);
+    if (customTools) {
+        try {
+            const parsed = JSON.parse(customTools);
+            // Merge custom tools with default tools
+            const customToolsArray = parsed.filter(tool => !tool.isDefault);
+            kpiData.tools = [...kpiData.tools.filter(tool => tool.isDefault), ...customToolsArray];
+        } catch (e) {
+            console.error('Error loading custom tools:', e);
+        }
+    }
+}
+
+function saveCustomTools() {
+    const customTools = kpiData.tools.filter(tool => !tool.isDefault);
+    localStorage.setItem(CUSTOM_TOOLS_KEY, JSON.stringify(customTools));
+}
+
+function addTool(toolData) {
+    // Validate tool data
+    if (!toolData.name || !toolData.description) {
+        throw new Error('Tool name and description are required');
+    }
+    
+    // Generate unique ID
+    const toolId = toolData.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+    
+    // Check if tool already exists
+    if (getToolById(toolId)) {
+        throw new Error('Tool with this name already exists');
+    }
+    
+    // Create new tool object
+    const newTool = {
+        id: toolId,
+        name: toolData.name,
+        description: toolData.description,
+        color: toolData.color || generateRandomColor(),
+        isDefault: false,
+        dateAdded: new Date().toISOString()
+    };
+    
+    // Add to tools array
+    kpiData.tools.push(newTool);
+    
+    // Save to localStorage
+    saveCustomTools();
+    
+    return newTool;
+}
+
+function removeTool(toolId) {
+    // Don't allow removal of default tools
+    const tool = getToolById(toolId);
+    if (!tool) {
+        throw new Error('Tool not found');
+    }
+    
+    if (tool.isDefault) {
+        throw new Error('Cannot remove default tools');
+    }
+    
+    // Remove from tools array
+    kpiData.tools = kpiData.tools.filter(t => t.id !== toolId);
+    
+    // Remove from all user scores
+    Object.keys(userScores).forEach(userId => {
+        const userScore = userScores[userId];
+        Object.keys(userScore.scores).forEach(kpiId => {
+            const scoreData = userScore.scores[kpiId];
+            if (scoreData.tools[toolId]) {
+                delete scoreData.tools[toolId];
+            }
+        });
+    });
+    
+    // Save changes
+    saveCustomTools();
+    saveToStorage();
+    
+    return true;
+}
+
+function generateRandomColor() {
+    const colors = [
+        '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8',
+        '#F7DC6F', '#BB8FCE', '#85C1E9', '#F8C471', '#82E0AA',
+        '#F1948A', '#85C1E9', '#D7BDE2', '#A9DFBF', '#F9E79F'
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
+function getAllTools() {
+    return [...kpiData.tools];
+}
+
+function getCustomTools() {
+    return kpiData.tools.filter(tool => !tool.isDefault);
+}
+
+function getDefaultTools() {
+    return kpiData.tools.filter(tool => tool.isDefault);
+}
 
 // Helper functions
 function getKPIById(kpiId) {
@@ -577,6 +690,11 @@ function getCategoryStats() {
     }));
 }
 
+// Initialize custom tools on load
+if (typeof window !== 'undefined') {
+    loadCustomTools();
+}
+
 // Export data and functions
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
@@ -588,6 +706,13 @@ if (typeof module !== 'undefined' && module.exports) {
         getAllKPIs,
         getKPIsByCategory,
         getTotalKPICount,
-        getCategoryStats
+        getCategoryStats,
+        addTool,
+        removeTool,
+        getAllTools,
+        getCustomTools,
+        getDefaultTools,
+        loadCustomTools,
+        saveCustomTools
     };
 } 
